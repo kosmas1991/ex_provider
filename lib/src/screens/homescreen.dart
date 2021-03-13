@@ -1,8 +1,10 @@
+import 'package:ex_provider/src/models/appBarButton.dart';
 import 'package:ex_provider/src/models/button.dart';
 import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
 
 class HomeScreen extends StatelessWidget {
+  final TextEditingController customController = TextEditingController();
   @override
   Widget build(BuildContext context) {
     return Scaffold(
@@ -12,8 +14,12 @@ class HomeScreen extends StatelessWidget {
       body: Container(
         child: Center(
           child: Column(mainAxisAlignment: MainAxisAlignment.center,
-            children: [
-              Consumer<MyButton>(builder: (context, value, child) => Icon(value.getState?Icons.toggle_on:Icons.toggle_off,color: value.getState?Colors.green:Colors.redAccent,size: 70,))
+            children: [Consumer<AppBarButton>(builder: (context, value, child) => Text(value.getName),),
+              Consumer<MyButton>(builder: (context, value, child) => Icon(value.getState?Icons.toggle_on:Icons.toggle_off,color: value.getState?Colors.green:Colors.redAccent,size: 70,)),
+              Consumer<AppBarButton>(builder: (context, value, child) => TextField(onChanged: (value2) {
+                    value.setName = customController.text.toString();
+                  },controller: customController,),
+                ),
             ],
           ),
         ),
